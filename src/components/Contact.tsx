@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/hooks/use-toast";
 import { 
   Phone, 
   Mail, 
@@ -12,6 +14,73 @@ import {
 } from "lucide-react";
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    nome: '',
+    empresa: '',
+    telefone: '',
+    email: '',
+    servico: '',
+    mensagem: ''
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validação básica
+    if (!formData.nome || !formData.telefone || !formData.mensagem) {
+      toast({
+        title: "Campos obrigatórios",
+        description: "Por favor, preencha nome, telefone e mensagem.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Formatação da mensagem para WhatsApp
+    const mensagemWhatsApp = encodeURIComponent(
+      `Olá, tudo bem? Gostaria de saber sobre os serviços!
+
+📋 *SOLICITAÇÃO DE ORÇAMENTO*
+
+👤 *Nome:* ${formData.nome}
+🏢 *Empresa:* ${formData.empresa || 'Não informado'}
+📞 *Telefone:* ${formData.telefone}
+📧 *Email:* ${formData.email || 'Não informado'}
+🔧 *Serviço de Interesse:* ${formData.servico || 'Não especificado'}
+
+💬 *Mensagem:*
+${formData.mensagem}
+
+_Enviado através do site da Closs Labory_`
+    );
+
+    // Abrir WhatsApp com a mensagem formatada
+    window.open(`https://wa.me/5519983402688?text=${mensagemWhatsApp}`, '_blank');
+    
+    // Limpar formulário
+    setFormData({
+      nome: '',
+      empresa: '',
+      telefone: '',
+      email: '',
+      servico: '',
+      mensagem: ''
+    });
+
+    toast({
+      title: "Redirecionando para WhatsApp",
+      description: "Sua mensagem foi formatada e será enviada pelo WhatsApp.",
+    });
+  };
+
   const contactInfo = [
     {
       icon: <Phone className="h-6 w-6 text-primary" />,
@@ -29,7 +98,7 @@ const Contact = () => {
         "Atendimento rápido",
         "Suporte técnico"
       ],
-      action: "https://wa.me/5519983402688"
+      action: "https://wa.me/5519983402688?text=Olá,%20tudo%20bem?%20Gostaria%20de%20saber%20sobre%20os%20serviços!"
     },
     {
       icon: <Clock className="h-6 w-6 text-primary" />,
@@ -73,19 +142,30 @@ const Contact = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <form className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium text-foreground mb-2 block">
                         Nome Completo *
                       </label>
-                      <Input placeholder="Seu nome completo" />
+                      <Input 
+                        name="nome"
+                        value={formData.nome}
+                        onChange={handleInputChange}
+                        placeholder="Seu nome completo" 
+                        required
+                      />
                     </div>
                     <div>
                       <label className="text-sm font-medium text-foreground mb-2 block">
                         Empresa
                       </label>
-                      <Input placeholder="Nome da sua empresa" />
+                      <Input 
+                        name="empresa"
+                        value={formData.empresa}
+                        onChange={handleInputChange}
+                        placeholder="Nome da sua empresa" 
+                      />
                     </div>
                   </div>
                   
@@ -94,13 +174,25 @@ const Contact = () => {
                       <label className="text-sm font-medium text-foreground mb-2 block">
                         Telefone *
                       </label>
-                      <Input placeholder="(11) 99999-9999" />
+                      <Input 
+                        name="telefone"
+                        value={formData.telefone}
+                        onChange={handleInputChange}
+                        placeholder="(19) 99999-9999" 
+                        required
+                      />
                     </div>
                     <div>
                       <label className="text-sm font-medium text-foreground mb-2 block">
                         Email
                       </label>
-                      <Input type="email" placeholder="seu@email.com" />
+                      <Input 
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        type="email" 
+                        placeholder="seu@email.com" 
+                      />
                     </div>
                   </div>
 
@@ -108,12 +200,17 @@ const Contact = () => {
                     <label className="text-sm font-medium text-foreground mb-2 block">
                       Serviço de Interesse
                     </label>
-                    <select className="w-full p-3 border border-input rounded-lg bg-background text-foreground">
-                      <option>Selecione um serviço</option>
-                      <option>Portaria 1 - Controle de Acesso</option>
-                      <option>Portaria 2 - Controle Fiscal</option>
-                      <option>Ambos os serviços</option>
-                      <option>Consultoria personalizada</option>
+                    <select 
+                      name="servico"
+                      value={formData.servico}
+                      onChange={handleInputChange}
+                      className="w-full p-3 border border-input rounded-lg bg-background text-foreground"
+                    >
+                      <option value="">Selecione um serviço</option>
+                      <option value="Portaria 1 - Controle de Acesso">Portaria 1 - Controle de Acesso</option>
+                      <option value="Portaria 2 - Controle Fiscal">Portaria 2 - Controle Fiscal</option>
+                      <option value="Ambos os serviços">Ambos os serviços</option>
+                      <option value="Consultoria personalizada">Consultoria personalizada</option>
                     </select>
                   </div>
 
@@ -122,14 +219,18 @@ const Contact = () => {
                       Mensagem *
                     </label>
                     <Textarea 
+                      name="mensagem"
+                      value={formData.mensagem}
+                      onChange={handleInputChange}
                       placeholder="Descreva suas necessidades, localização e qualquer informação relevante..."
                       className="min-h-[120px]"
+                      required
                     />
                   </div>
 
-                  <Button size="lg" className="w-full">
+                  <Button type="submit" size="lg" className="w-full">
                     <Send className="h-4 w-4 mr-2" />
-                    Enviar Solicitação
+                    Enviar via WhatsApp
                   </Button>
                 </form>
               </CardContent>

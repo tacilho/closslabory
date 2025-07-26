@@ -37,10 +37,19 @@ const Hero = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" variant="secondary" className="text-primary">
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="text-primary"
+                onClick={() => window.open("https://wa.me/5519983402688?text=Olá,%20tudo%20bem?%20Gostaria%20de%20saber%20sobre%20os%20serviços!", "_blank")}
+              >
                 Solicitar Orçamento
               </Button>
-              <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                onClick={() => document.getElementById('servicos')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 Conhecer Serviços
               </Button>
             </div>

@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const Gallery = () => {
   const galleryImages = [
@@ -67,18 +68,19 @@ const Gallery = () => {
             Quer conhecer de perto nossas instalações e sistema de monitoramento?
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="#contato" 
-              className="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+            <Button 
+              onClick={() => document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth' })}
+              className="inline-flex items-center justify-center px-6 py-3"
             >
               Agendar Visita
-            </a>
-            <a 
-              href="tel:19983402688" 
-              className="inline-flex items-center justify-center px-6 py-3 border border-primary text-primary rounded-lg hover:bg-primary hover:text-primary-foreground transition-colors"
+            </Button>
+            <Button 
+              variant="outline"
+              onClick={() => window.open("https://wa.me/5519983402688?text=Olá,%20tudo%20bem?%20Gostaria%20de%20saber%20sobre%20os%20serviços!", "_blank")}
+              className="inline-flex items-center justify-center px-6 py-3"
             >
               Entrar em Contato
-            </a>
+            </Button>
           </div>
         </div>
       </div>

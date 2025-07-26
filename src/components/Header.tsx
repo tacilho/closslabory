@@ -40,7 +40,11 @@ const Header = () => {
               <Phone className="h-4 w-4 text-primary" />
               <span className="text-foreground">(19) 98340-2688</span>
             </div>
-            <Button variant="default" size="sm">
+            <Button 
+              variant="default" 
+              size="sm"
+              onClick={() => window.open("https://wa.me/5519983402688?text=Olá,%20tudo%20bem?%20Gostaria%20de%20saber%20sobre%20os%20serviços!", "_blank")}
+            >
               Solicitar Orçamento
             </Button>
           </div>
@@ -91,7 +95,12 @@ const Header = () => {
                   <Phone className="h-4 w-4 text-primary" />
                   <span className="text-foreground">(19) 98340-2688</span>
                 </div>
-                <Button variant="default" size="sm" className="w-full">
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => window.open("https://wa.me/5519983402688?text=Olá,%20tudo%20bem?%20Gostaria%20de%20saber%20sobre%20os%20serviços!", "_blank")}
+                >
                   Solicitar Orçamento
                 </Button>
               </div>
