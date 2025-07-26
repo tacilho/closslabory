@@ -15,7 +15,7 @@ const Header = () => {
             <Shield className="h-8 w-8 text-primary" />
             <div>
               <h1 className="text-xl font-bold text-foreground">Closs Labory</h1>
-              <p className="text-sm text-muted-foreground">Segurança Empresarial</p>
+              <p className="text-sm text-muted-foreground">Prestador de serviços de Portaria e Limpeza</p>
             </div>
           </div>
 
